@@ -1,7 +1,10 @@
 # pyspark-schema-generator
 A tool to generate PySpark schema from JSON.
 
-Place your Valid JSOn in the left textarea and click on generate schema. You can see the results in the right teararea.
+Not sure which data engineer will need this but here it is. I built this as I was facing a problem. 
+*There are few bugs in it. It will be fixed soon. 😉*
+
+Place your Valid JSON in the left textarea and click on generate schema. You can see the results in the right teararea.
 
 Example:
 Input:
@@ -52,4 +55,6 @@ Planned Enhancements
 
 
 Made with ♥ by PREETish
-
+Reach out to me:\
+Twitter:[@preetrnj](https://twitter.com/preetrnj)\
+Blog Site:[My Tech Blog](https://pritishcodeblogs.blogspot.com)
