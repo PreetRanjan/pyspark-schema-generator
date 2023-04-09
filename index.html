@@ -28,36 +28,40 @@
         padding-top: 10px;
         border-color: #ccc;
       }
+      .btn-check:active + .btn-primary,
+      .btn-check:checked + .btn-primary,
+      .btn-primary.active,
+      .btn-primary:active,
+      .show > .btn-primary.dropdown-toggle {
+        color: #fff;
+        background-color: #10366e;
+        border-color: #10366e;
+      }
     </style>
 
     <title>Pyspark Schema Generator</title>
   </head>
   <body>
     <div class="container-fluid">
-      <div class="d-flex bd-highlight">
-        <div class="p-2 flex-grow-1 bd-highlight">
-          <div class="container">
-            <h3 class="fw-bold">Generate Pyspark Schema</h3>
-            <p class="col-md-8 fs-4">
-              Make your PySpark schema from JSON !! 😉
-            </p>
-          </div>
-        </div>
-        <div class="p-2 bd-highlight">
+      <header class="py-3 mb-4 border-bottom">
+        <div class="container d-flex flex-wrap justify-content-center">
+          <a
+            href="/"
+            class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none"
+          >
+            <svg class="bi me-2" width="40" height="32">
+              <use xlink:href="#bootstrap"></use>
+            </svg>
+            <div>
+              <h2 class="fs-4 fw-bold">Generate Pyspark Schema</h2>
+              <small> Make your PySpark schema from JSON !! 😉 </small>
+            </div>
+          </a>
+
           <button class="btn btn-primary" id="btn-generate" type="button">
             Generate Schema
           </button>
-        </div>
-        <div class="p-2 bd-highlight">
-          <a
-            class="btn btn-primary"
-            type="button"
-            href="https://preetranjan.github.io/format-json/"
-          >
-            Home
-          </a>
-        </div>
-        <div class="p-2 bd-highlight">
+
           <div class="dropdown">
             <a
               class="btn btn-light dropdown-toggle"
@@ -90,13 +94,14 @@
             </ul>
           </div>
         </div>
-      </div>
+      </header>
+
       <div class="row">
         <div class="col-md-6">
           <div class="d-flex bd-highlight">
             <div class="p-2 flex-grow-1 bd-highlight">
               <div class="container">
-                <h3 class="fw-bold">JSON Input</h3>
+                <h4 class="fw-bold" contenteditable="true">JSON Input</h4>
               </div>
             </div>
 
@@ -113,27 +118,36 @@
               <button
                 class="btn btn-secondary btn-sm"
                 type="button"
-                onclick="formatJsonArea('left')"
+                id="btnformat"
               >
                 Format
               </button>
             </div>
           </div>
-          <textarea
+          <!--<textarea
             id="left"
             style="min-width: 100%; font-family: consolas"
             class="form-control text-area"
             spellcheck="false"
             rows="20"
-          ></textarea>
-          <a target="_blank" href="https://pritishcodeblogs.blogspot.com"
-        ><small>Made with ❤ By PREETish </small></a>
+          ></textarea>-->
+          <div
+            class="shadow"
+            id="container"
+            style="min-width: 100%; height: 500px; border: 1px solid grey"
+          ></div>
+          <a target="_blank" href="https://www.pritishranjan.com"
+            ><small>Made with ❤ By PREETish </small></a
+          >
+          <a target="_blank" href="https://feedbackpro.azurewebsites.net"
+            ><small>Leave Feedback</small></a
+          >
         </div>
         <div class="col-md-6">
           <div class="d-flex bd-highlight">
             <div class="p-2 flex-grow-1 bd-highlight">
               <div class="container">
-                <h3 class="fw-bold">PySpark Schema</h3>
+                <h4 class="fw-bold" contenteditable="true">PySpark Schema</h4>
               </div>
             </div>
 
@@ -141,7 +155,7 @@
               <button
                 class="btn btn-secondary btn-sm"
                 type="button"
-                id="btncopy"
+                id="btncopy2"
               >
                 Copy
               </button>
@@ -150,22 +164,20 @@
               <button
                 class="btn btn-secondary btn-sm"
                 type="button"
-                onclick="formatJsonArea('right')"
+                id="btnoutput_format"
               >
                 Format
               </button>
             </div>
           </div>
-          <textarea
-            id="right"
-            style="min-width: 100%; font-family: consolas"
-            class="form-control text-area"
-            spellcheck="false"
-            rows="20"
-          ></textarea>
+          <div
+            class="shadow"
+            id="output_container"
+            style="min-width: 100%; height: 500px; border: 1px solid grey"
+          ></div>
           <small>
-            Python code formatting is not supported in house. You can try third
-            party formatters like
+            Python code is semi formatted. Formating is still not fine.You can
+            try third party formatters like
 
             <a
               href="https://www.tutorialspoint.com/online_python_formatter.htm"
@@ -180,9 +192,6 @@
           </small>
         </div>
       </div>
-      <a target="_blank" href="https://pritishcodeblogs.blogspot.com"
-        ><small>Made with ❤ By PREETish </small></a
-      >
     </div>
     <!-- Optional JavaScript; choose one of the two! -->
     <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
@@ -192,6 +201,7 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
+    <script src="./loader.js"></script>
     <script src="./logic.js"></script>
 
     <!-- Option 2: Separate Popper and Bootstrap JS -->
