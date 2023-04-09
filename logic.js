@@ -49,10 +49,11 @@ var rightDiv = document.getElementById("right");
 
 let generate_button = document.getElementById("btn-generate");
 generate_button.addEventListener("click", () => {
-  let input_json = leftDiv.value;
+  let input_json = editor.getValue();
   let input_json_object = JSON.parse(input_json);
   let generated_schema = prepare_from_object(input_json_object);
-  rightDiv.value = generated_schema;
+  let tryFormat = generated_schema.split("True),").join("True),  \n");
+  outputEditor.getModel().setValue(tryFormat);
 });
 
 var copyButton = document.getElementById("btncopy");
@@ -75,3 +76,78 @@ function copyToClipBoard(element) {
   let inputJson = document.getElementById(element).value;
   navigator.clipboard.writeText(inputJson);
 }
+
+//Code for Monaco editor
+//require config
+require.config({
+  baseUrl:
+    "https://microsoft.github.io/monaco-editor/node_modules/monaco-editor/min/",
+});
+//editor section
+var editor, outputEditor;
+require(["vs/editor/editor.main"], function () {
+  editor = monaco.editor.create(document.getElementById("container"), {
+    value: [
+      "{",
+      '"id":21,',
+      '"name":"PREETish",',
+      '"project":"PySpark Schema Generator",',
+      '"details":',
+      "{",
+      '"link":"https://preetranjan.github.io/pyspark-schema-generator/",',
+      '"developer":"Pritish Ranjan"',
+      "}",
+      "}",
+    ].join("\n"),
+    language: "json",
+    autoIndent: true,
+  });
+
+  //output python editor
+  outputEditor = monaco.editor.create(
+    document.getElementById("output_container"),
+    {
+      value: ["# Your Pyspark Schema Will be generated here! \n \n \n \n"].join(
+        "\n"
+      ),
+      language: "python",
+    }
+  );
+});
+
+var formatButton = document.getElementById("btnformat");
+
+formatButton.addEventListener("click", () => {
+  editor.trigger("editor", "editor.action.formatDocument");
+});
+
+var outputFormatButton = document.getElementById("btnoutput_format");
+
+outputFormatButton.addEventListener("click", () => {
+  outputEditor
+    .getModel()
+    .setValue(outputEditor.getValue().split("True),").join("True),  \n"));
+  outputEditor.trigger("editor", "editor.action.formatDocument");
+});
+
+//generic function to be used later
+function formatEditor(editor) {
+  //trigger format action
+  editor.trigger("editor", "editor.action.formatDocument");
+}
+var copyButton = document.getElementById("btncopy");
+copyButton.addEventListener("click", (event) => {
+  let inputJson = editor.getValue();
+  navigator.clipboard.writeText(inputJson);
+  event.target.innerText = "Copied";
+});
+
+var copyButton = document.getElementById("btncopy2");
+copyButton.addEventListener("click", (event) => {
+  let inputJson = outputEditor.getValue();
+  navigator.clipboard.writeText(inputJson);
+  event.target.innerText = "Copied";
+});
+window.onload = () => {
+  editor.trigger("editor", "editor.action.formatDocument");
+};
