@@ -161,6 +161,7 @@ has_data.addEventListener("change", () => {
   } else {
     string_only.checked = false;
     infer_types.checked = true;
+    additional_message.textContent = "";
   }
 });
 
@@ -169,10 +170,13 @@ infer_types.addEventListener("change", () => {
     string_only.checked = true;
     infer_types.checked = false;
     additional_message.textContent = "Can not refer types for header only CSV.";
+  } else if (has_data.checked == true && infer_types.checked == true) {
+    additional_message.textContent = "";
   } else {
     additional_message.textContent = "";
   }
 });
+
 const isJson = (str) => {
   try {
     JSON.parse(str);
