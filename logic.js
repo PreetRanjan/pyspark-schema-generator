@@ -17,20 +17,26 @@ function prepare_from_object(obj) {
   let fieldNames = Object.keys(obj);
   let schema_str = [];
   fieldNames.forEach((v, i) => {
+    let fieldName;
+    if (lower_case.checked == true) {
+      fieldName = v.toLowerCase();
+    } else {
+      fieldName = v;
+    }
     if (typeof obj[v] == "string") {
-      schema_str.push(`StructField('${v}',StringType(),True)`);
+      schema_str.push(`StructField('${fieldName}',StringType(),True)`);
     } else if (typeof obj[v] == "boolean") {
-      schema_str.push(`StructField('${v}',BooleanType(),True)`);
+      schema_str.push(`StructField('${fieldName}',BooleanType(),True)`);
     } else if (typeof obj[v] == "number") {
-      schema_str.push(`StructField('${v}',IntegerType(),True)`);
+      schema_str.push(`StructField('${fieldName}',IntegerType(),True)`);
     } else if (Array.isArray(obj[v])) {
-      let array_schema = `StructField('${v}',ArrayType(0),True)`;
+      let array_schema = `StructField('${fieldName}',ArrayType(0),True)`;
       let get_new_schema = prepare_from_object(obj[v][0]);
       array_schema = array_schema.replace("0", get_new_schema);
       schema_str.push(array_schema);
     } else if (typeof obj[v] == "object") {
       let obj_schema = prepare_from_object(obj[v]);
-      let obj_schema_inside_struct_field = `StructField('${v}',${obj_schema},True)`;
+      let obj_schema_inside_struct_field = `StructField('${fieldName}',${obj_schema},True)`;
       schema_str.push(obj_schema_inside_struct_field);
     }
   });
@@ -42,8 +48,14 @@ function prepare_from_object(obj) {
 // generate string only schema from CSV
 function generate_string_only_schema(columns) {
   let schema = [];
+  let colName;
   columns.forEach((val) => {
-    const colName = val.trim().toLowerCase();
+    if (lower_case.checked == true) {
+      colName = val.trim().toLowerCase();
+    } else {
+      colName = val.trim();
+    }
+
     schema.push(`StructField('${colName}',StringType(),True),`);
   });
   let schema_cols = schema.join("\n");
@@ -89,7 +101,13 @@ function get_column_details(csvData) {
 function generate_type_based_schema(columnDetails) {
   console.log("Column Details: ", typeof columnDetails);
   let schema = [];
+  let colName;
   columnDetails.forEach((val) => {
+    if (lower_case.checked == true) {
+      colName = val.name.trim().toLowerCase();
+    } else {
+      colName = val.name.trim();
+    }
     const colName = val.name.trim().toLowerCase();
     schema.push(`StructField('${colName}',${get_spark_type(val.type)},True),`);
   });
@@ -143,6 +161,10 @@ var header_only = document.getElementById("headerOnly");
 var has_data = document.getElementById("hasData");
 var string_only = document.getElementById("string_only");
 var infer_types = document.getElementById("infer_types");
+
+var original_case = document.getElementById("original");
+var lower_case = document.getElementById("lower_case");
+
 var additional_message = document.getElementById("additional_message");
 
 //Variable for Bootstrap Modal
